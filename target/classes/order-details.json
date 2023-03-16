@@ -1,0 +1,5 @@
+{
+  "orderId": "order_123",
+  "customerId": "customer_xyz",
+  "customerAddressId": "customerAddress_abc"
+}
