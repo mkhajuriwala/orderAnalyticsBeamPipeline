@@ -1,17 +1,19 @@
 # orderAnalyticsBeamPipeline
 Beam pipeline to stream order details from pubSub to BigQuery
 
-java -jar target/orderAnalyticsBeamPipeline-bundled-1.0.jar --inputTopicSubscription="projects/mkloud/subscriptions/orderAnalyticsSubscription" --bigQueryTable="pubSubBigQueryDataSet.OrderDetailsTable" --jobName="OrderAnalyticsStream" --runner=DataflowRunner --gcpTempLocation="gs://mhk-dataflow-bucket/OrderAnalyticsTemp" --region=northamerica-northeast1 --zone=northamerica-northeast1-b
+# Run from command line or IDE
+java -jar target/orderAnalyticsBeamPipeline-bundled-1.0.jar --inputTopicSubscription="<<InputTopic>>" --bigQueryTable="<<BigQueryTable>>" --jobName="OrderAnalyticsStream" --runner=DataflowRunner --gcpTempLocation="<<TempLocation>>" --region=<<Region>> --zone=<<Worker Zone>>
 
-gcloud dataflow flex-template build gs://mhk-dataflow-bucket-1/dataflow/templates/order-analytics-stream-flex-template.json \
---image-gcr-path "northamerica-northeast1-docker.pkg.dev/mkloud/mkloud-artifacts/dataflow/order-analytics:latest" \
+# Build flex template
+gcloud dataflow flex-template build gs://<<GCP BUCKET>>/dataflow/templates/order-analytics-stream-flex-template.json \
+--image-gcr-path "<<Image path>>/order-analytics:latest" \
 --sdk-language "JAVA" \
 --flex-template-base-image JAVA11 \
 --jar "target/orderAnalyticsBeamPipeline-bundled-1.0.jar" \
 --env FLEX_TEMPLATE_JAVA_MAIN_CLASS="com.kloudbuddy.stream.pipeline.BeamPipeline"
 
-
-gcloud dataflow flex-template run "order-analytics-`date +%Y%m%d-%H%M%S`" --template-file-gcs-location="gs://mhk-dataflow-bucket-1/dataflow/templates/order-analytics-stream-flex-template.json" --parameters inputTopicSubscription="projects/mkloud/subscriptions/orderAnalyticsSubscription" --parameters bigQueryTable="pubSubBigQueryDataSetUsCentral.OrderDetailsTable" --enable-streaming-engine --service-account-email="dataflow-sa@mkloud.iam.gserviceaccount.com" --staging-location="gs://mhk-dataflow-bucket-1/staging/" --temp-location="gs://mhk-dataflow-bucket-1/tempLocation/" --region="us-central1" 
+# Run dataflow using flex template
+gcloud dataflow flex-template run "order-analytics-`date +%Y%m%d-%H%M%S`" --template-file-gcs-location="<<BUCKET LOCATION>>/order-analytics-stream-flex-template.json" --parameters inputTopicSubscription="<<InputTopic>>" --parameters bigQueryTable="<<BigQueryTable>>" --enable-streaming-engine --service-account-email="<<ServiceAccount>>" --staging-location="<<Staging Location>>/staging/" --temp-location="<<Temp Location>>/tempLocation/" --region="<<Region>>" 
 
 OrderDetails sample json
 {
