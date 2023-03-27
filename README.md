@@ -2,7 +2,7 @@
 Beam pipeline to stream order details from pubSub to BigQuery
 
 # Run from command line or IDE
-java -jar target/orderAnalyticsBeamPipeline-bundled-1.0.jar --inputTopicSubscription="<InputTopic Subscription>" --bigQueryTable="<<BigQueryTable>>" --jobName="OrderAnalyticsStream" --runner=DataflowRunner --gcpTempLocation="gs://<<GCP Bucket>>/tempLocation" --region=<<Region>> --zone=<<Worker Zone>>
+java -jar target/orderAnalyticsBeamPipeline-bundled-1.0.jar --inputTopicSubscription="<<InputTopic Subscription>>" --bigQueryTable="<<BigQueryTable>>" --jobName="OrderAnalyticsStream" --runner=DataflowRunner --gcpTempLocation="gs://<<GCP Bucket>>/tempLocation" --region=<<Region>> --zone=<<Worker Zone>>
 
 # Build flex template
 gcloud dataflow flex-template build gs://<<GCP BUCKET>>/dataflow/templates/order-analytics-stream-flex-template.json \
